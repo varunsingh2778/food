@@ -3,12 +3,12 @@
 import { StarIcon } from "@chakra-ui/icons";
 import { Badge, Box, Image } from "@chakra-ui/react";
 import axios from "axios";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 function Product() {
   const [data, setData] = useState([]);
-  const[filtered] = useOutletContext();
+  const [filtered] = useOutletContext();
 
   useEffect(() => {
     let token = JSON.parse(localStorage.getItem("Token"))
@@ -16,7 +16,7 @@ function Product() {
       try {
         let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {}, {
           headers: {
-            Authorization: 'Bearer ' + token  
+            Authorization: 'Bearer ' + token
           }
         })
         setData(products?.data?.data?.products)
@@ -30,10 +30,10 @@ function Product() {
 
 
   return (
-    <>{filtered.length>0?
-    filtered.map((data, index) => {
+    <>{filtered.length > 0 ?
+      filtered.map((data, index) => {
         return <div key={index}>
-          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{d
+          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
             "float": "left",
             "width": "25%",
             "padding": "10px"
@@ -78,8 +78,8 @@ function Product() {
           </Box>
         </div>
       })
-    :
-    data.map((data, index) => {
+      :
+      data.map((data, index) => {
         return <div key={index}>
           <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
             "float": "left",
@@ -126,7 +126,7 @@ function Product() {
           </Box>
         </div>
       })}
-      
+
     </>
   )
 }
