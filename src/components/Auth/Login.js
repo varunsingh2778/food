@@ -18,7 +18,6 @@ const Login = () => {
   }, [])
   const logIn = () => {
     axios.post("https://food-app-hai.herokuapp.com/api/user/login", data).then((result) => {
-      console.log("result", result)
       if (result?.data?.data?.accessToken) {
         Navigate("/dashboard");
         localStorage.setItem('Token', JSON.stringify(result.data.data.accessToken))
