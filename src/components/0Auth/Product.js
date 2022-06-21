@@ -4,41 +4,66 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
+
 function Product() {
   const [data, setData] = useState([]);
+  const[pageArr,setPageArr] = useState([]);
+  const[page,setPage] = useState(0);
 
-  const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total] = useOutletContext();
+//  let page = 0;
+
+  const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total,input] = useOutletContext();
 
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem("Token"))
     // console.log(token)
-    const getProd = async () => {
-      try {
-        let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {}, {
-          headers: {
-            Authorization: 'Bearer ' + token
-          }
-        })
-        setData(products?.data?.data?.products)
-        // console.log(products.data.data.products)
-        // console.log(products)
-      } catch (e) {
-        console.log(e)
-      }
-    }
     getProd();
-  }, [])
+  },[])
 
+  useEffect(()=>{
+    pageCount();
+  },[page])
+
+  const pageCount = ()=>{
+    // console.log("inside PageCount")
+    // console.log(page);
+    for(let i = 1;i<=page;i++){
+      // console.log(i)
+      setPageArr(curr=>[...curr,i])
+      // console.log(i)
+    }
+    // return pageArr
+  }
+
+  const getProd = async (a) => {
+    let token = JSON.parse(localStorage.getItem("Token"))
+    try {
+      let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {
+        limit: 3,
+        page: a
+      }, {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      })
+      setData(products?.data?.data?.products)
+      setPage(products?.data?.data?.pageCount)
+      // console.log(products)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
     <>
-      {searchData.length > 0 ?
+      {input.length > 0 ?
         searchData.map((data, index) => {
           return <div key={index}>
             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
               "float": "left",
               "width": "25%",
-              "padding": "10px"
+              "padding": "10px",
+              "marginLeft": "70px"
+
             }}>
               <Image src={data.image} alt="" />
 
@@ -78,7 +103,8 @@ function Product() {
             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
               "float": "left",
               "width": "25%",
-              "padding": "10px"
+              "padding": "10px",
+              "marginLeft": "70px"
             }}>
               <Image src={data.image} alt="" />
 
@@ -113,22 +139,22 @@ function Product() {
           </div>
 
         })}
-      <div className="container d-flex justify-content-center" style={{"paddingBottom":"2%","paddingTop":"3%"}}>
+      <div className="container d-flex justify-content-center" style={{ "paddingBottom": "2%", "paddingTop": "3%" }}>
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
-                <span className="sr-only">Previous</span>
+
               </a>
             </li>
-            <li className="page-item"><a className="page-link" href="#">1</a></li>
-            <li className="page-item"><a className="page-link" href="#">2</a></li>
-            <li className="page-item"><a className="page-link" href="#">3</a></li>
+            {pageArr.map((item,index)=>{
+              return <li key={index} className="page-item" style={{"cursor":"pointer"}}><a className="page-link" onClick={()=>getProd(item)}>{item}</a></li>
+            })}
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
-                <span className="sr-only">Next</span>
+
               </a>
             </li>
           </ul>

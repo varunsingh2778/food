@@ -43,21 +43,13 @@ const Cart = () => {
     }
   }
 
-
-  const plusItem = (a)=>{
-    // if(cartDataItems.length>0){
-    //   setAllItems(cartDataItems);
-    // }   
+  const plusItem = (a)=>{  
     handleAddtoCart(a);
     setAllItems(cartDataItems)
    
   }
 
   const removed = (id) => {
-    // if (cartDataItems.length > 0) {
-    //   setAllItems(cartDataItems)
-    // }
-    
     removeCart(id);
     setAllItems(cartDataItems)
     

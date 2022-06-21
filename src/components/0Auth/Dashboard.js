@@ -6,6 +6,7 @@ export default function Dashboard() {
   const [searchData, setSearchData] = useState([]);
   const[displayCart,setDisplayCart] = useState(0);
   const[cartDataItems,setCartDataItems] = useState([]);
+  const[input,setInput] = useState([]);
   const[total,setTotal]= useState(0)
   const navigateTo = useNavigate();
 
@@ -33,6 +34,15 @@ export default function Dashboard() {
     }
     getCartItem();
   },[])
+
+  useEffect(()=>{
+    handleInput();
+  },[input])
+
+  const handleOnChange = (e)=>{
+    setInput(e.target.value)
+  }
+  
 
   const handleAddtoCart= async(a)=>{
     let tokenid = JSON.parse(localStorage.getItem("Token"));
@@ -96,24 +106,26 @@ export default function Dashboard() {
     navigateTo('/login')
   }
   
-  const handleInput = (e) => {
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
-    const getSearch = async () => {
+  const handleInput = async() => {
+    // console.log("inside HandleInput")
+    if(input.length>0){
       try {
+        let tokenid = JSON.parse(localStorage.getItem("Token"));
         let ans = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {
-          search: (e.target.value)
+          search: input,
+          
         }, {
           headers: {
             'authorization': 'Bearer ' + tokenid
           }
         })
         setSearchData(ans?.data?.data?.products);
-        console.log(ans?.data?.data?.products);
+        // console.log(ans?.data?.data?.products);
       } catch (err) {
         console.log(err)
       }
     }
-    getSearch();
+   
   }
   const getCartItem = async()=>{
     let tokenid = JSON.parse(localStorage.getItem('Token'))
@@ -199,7 +211,7 @@ export default function Dashboard() {
           "justifyContent": "sp",
           "marginTop": "10px",
         }}>
-          <input type="text" className="form-control" placeholder="Search Items here" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleInput}>
+          <input type="text" className="form-control" placeholder="Search Items here" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleOnChange}>
 
           </input>
         </div>
@@ -246,7 +258,7 @@ export default function Dashboard() {
           "width": "100%",
           "padding": "10px",
         }}>
-          <Outlet context={[removeCart,handleAddtoCart,clearCart,placedOrder,searchData,cartDataItems,displayCart,total]}/>
+          <Outlet context={[removeCart,handleAddtoCart,clearCart,placedOrder,searchData,cartDataItems,displayCart,total,input]}/>
         </div>
       </div>
     </div> 
