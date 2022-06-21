@@ -26,8 +26,7 @@ export default function Dashboard() {
             Authorization: 'Bearer ' + tokenid
           }
         })
-        setTotal(products.data.data.results.total);
-        
+        setTotal(products.data.data.results.total); 
       } catch (e) {
         console.log(e)
       }
@@ -178,7 +177,7 @@ export default function Dashboard() {
             .then((result) => {
                 // console.log(result.data.data);
                 emptyCart();
-                window.alert("Congradulations 🥳🥳,Order Successfull");
+                window.alert("Congradulations 🥳🥳,Order Successfull !!!");
                 navigateTo('/dashboard/product');
             });
     } catch (e) {

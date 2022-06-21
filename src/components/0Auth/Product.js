@@ -10,8 +10,6 @@ function Product() {
   const[pageArr,setPageArr] = useState([]);
   const[page,setPage] = useState(0);
 
-//  let page = 0;
-
   const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total,input] = useOutletContext();
 
   useEffect(() => {
