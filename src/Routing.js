@@ -8,6 +8,7 @@ import Payment from './components/0Auth/payment';
 import Product from './components/0Auth/Product';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
+import Loading from './Loading';
 import PageNotFound from './PageNotFound';
 
 
@@ -26,6 +27,7 @@ const Routing = () => {
           <Route path="/dashboard/cart" element={<Cart/>}/>
           <Route path = "/dashboard/about" element={<About/>}/>
           <Route path = "/dashboard/payment" element = {<Payment/>}/>
+          <Route path = "/dashboard/loading" element = {<Loading/>}/>
         </Route>
         <Route path="*" element ={<PageNotFound/>}/>
       </Routes>
