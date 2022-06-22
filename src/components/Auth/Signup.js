@@ -4,13 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 const Signup = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
-  useEffect(()=>
-  {
+  useEffect(() => {
     let tokenid = JSON.parse(localStorage.getItem("Token"));
-    if(tokenid){
+    if (tokenid) {
       navigate('/dashboard')
     }
-  },[])
+  }, [])
   const handleChange = (e) => {
     setData({
       ...data,

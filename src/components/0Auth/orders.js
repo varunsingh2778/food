@@ -2,7 +2,6 @@ import { Accordion, AccordionButton, AccordionIcon, AccordionItem, Box, Accordio
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loading from "../../Loading";
-// Demo styles, see 'Styles' section below for some notes on use.
 import "react-accessible-accordion/dist/fancy-example.css";
 
 function Orders() {
@@ -23,7 +22,6 @@ function Orders() {
                     }
                 )
                 .then((result) => {
-                    // console.log(result.data.data);
                     setOrder(result.data.data);
                     setSpinner(false);
                 });
@@ -33,7 +31,6 @@ function Orders() {
         }
     }
     const downloading = (link) => {
-        // console.log("Krta hu download...")
         window.open(`https://food-app-hai.herokuapp.com${link}`)
     }
 
@@ -42,7 +39,7 @@ function Orders() {
     }, [])
 
     return (
-        <> {spinner? <Loading/>:
+        <> {spinner ? <Loading /> :
             order.map((items, index) => {
                 return <div key={index}>
                     <Accordion defaultIndex={[0]} allowMultiple>

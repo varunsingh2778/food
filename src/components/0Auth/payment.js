@@ -5,7 +5,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 function Payment() {
     const[total,setTotal] = useState(0);
     const[id,setId] =useState(0)
-    // const navigateTo = useNavigate();
     const [removeCart, handleAddtoCart,clearCart, placedOrder,searchData, cartDataItems,displayCart] = useOutletContext();
     useEffect(() => {
         let tokenid = JSON.parse(localStorage.getItem("Token"));
@@ -16,9 +15,7 @@ function Payment() {
                         Authorization: 'Bearer ' + tokenid
                     }
                 })
-                // console.log(products.data.data.results.total);
                 setTotal(products.data.data.results.total)
-                // console.log(products.data.data.results._id)
                 setId(products.data.data.results._id)
 
             } catch (e) {

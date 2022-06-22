@@ -8,30 +8,24 @@ import { useOutletContext } from "react-router-dom";
 
 function Product() {
   const [data, setData] = useState([]);
-  const[pageArr,setPageArr] = useState([]);
-  const[page,setPage] = useState(0);
-  const[spinner,setSpinner]= useState(false);
+  const [pageArr, setPageArr] = useState([]);
+  const [page, setPage] = useState(0);
+  const [spinner, setSpinner] = useState(false);
 
-  const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total,input] = useOutletContext();
+  const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total, input] = useOutletContext();
 
   useEffect(() => {
-    // console.log(token)
     getProd();
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     pageCount();
-  },[page])
+  }, [page])
 
-  const pageCount = ()=>{
-    // console.log("inside PageCount")
-    // console.log(page);
-    for(let i = 1;i<=page;i++){
-      // console.log(i)
-      setPageArr(curr=>[...curr,i])
-      // console.log(i)
+  const pageCount = () => {
+    for (let i = 1; i <= page; i++) {
+      setPageArr(curr => [...curr, i])
     }
-    // return pageArr
   }
 
   const getProd = async (a) => {
@@ -49,7 +43,6 @@ function Product() {
       setData(products?.data?.data?.products)
       setPage(products?.data?.data?.pageCount)
       setSpinner(false)
-      // console.log(products)
     } catch (e) {
       console.log(e)
       setSpinner(false)
@@ -57,7 +50,7 @@ function Product() {
   }
 
   return (
-    <>{spinner? <Loading/>:
+    <>{spinner ? <Loading /> :
       input.length > 0 ?
         searchData.map((data, index) => {
           return <div key={index}>
@@ -66,9 +59,9 @@ function Product() {
               "width": "25%",
               "padding": "10px",
               "marginLeft": "70px",
-              "marginTop":"10px"
+              "marginTop": "10px"
             }}>
-              <Image src={data.image} alt="" style={{"height":"220px"}}/>
+              <Image src={data.image} alt="" style={{ "height": "220px" }} />
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
@@ -108,9 +101,9 @@ function Product() {
               "width": "25%",
               "padding": "10px",
               "marginLeft": "70px",
-              "marginTop":"10px"
+              "marginTop": "10px"
             }}>
-              <Image src={data.image} alt="" style={{"height":"220px"}}/>
+              <Image src={data.image} alt="" style={{ "height": "220px" }} />
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
@@ -152,8 +145,8 @@ function Product() {
 
               </a>
             </li>
-            {pageArr.map((item,index)=>{
-              return <li key={index} className="page-item" style={{"cursor":"pointer"}}><a className="page-link" onClick={()=>getProd(item)}>{item}</a></li>
+            {pageArr.map((item, index) => {
+              return <li key={index} className="page-item" style={{ "cursor": "pointer" }}><a className="page-link" onClick={() => getProd(item)}>{item}</a></li>
             })}
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Next">
