@@ -65,10 +65,10 @@ function Product() {
               "float": "left",
               "width": "25%",
               "padding": "10px",
-              "marginLeft": "70px"
-
+              "marginLeft": "70px",
+              "marginTop":"10px"
             }}>
-              <Image src={data.image} alt="" />
+              <Image src={data.image} alt="" style={{"height":"220px"}}/>
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
@@ -107,9 +107,10 @@ function Product() {
               "float": "left",
               "width": "25%",
               "padding": "10px",
-              "marginLeft": "70px"
+              "marginLeft": "70px",
+              "marginTop":"10px"
             }}>
-              <Image src={data.image} alt="" />
+              <Image src={data.image} alt="" style={{"height":"220px"}}/>
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
