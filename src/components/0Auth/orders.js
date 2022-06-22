@@ -1,12 +1,15 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, Box, AccordionPanel } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Loading from "../../Loading";
 // Demo styles, see 'Styles' section below for some notes on use.
 import "react-accessible-accordion/dist/fancy-example.css";
 
 function Orders() {
     const [order, setOrder] = useState([])
-        const getSearch = async () => {
+    const [spinner, setSpinner] = useState(false);
+    const getSearch = async () => {
+        setSpinner(true)
         let token = JSON.parse(localStorage.getItem("Token"));
         try {
             const url = await axios
@@ -22,12 +25,14 @@ function Orders() {
                 .then((result) => {
                     // console.log(result.data.data);
                     setOrder(result.data.data);
+                    setSpinner(false);
                 });
         } catch (e) {
             console.log(e);
+            setSpinner(false)
         }
     }
-    const downloading=(link)=>{
+    const downloading = (link) => {
         // console.log("Krta hu download...")
         window.open(`https://food-app-hai.herokuapp.com${link}`)
     }
@@ -37,8 +42,8 @@ function Orders() {
     }, [])
 
     return (
-        <>
-            {order.map((items, index) => {
+        <> {spinner? <Loading/>:
+            order.map((items, index) => {
                 return <div key={index}>
                     <Accordion defaultIndex={[0]} allowMultiple>
                         <AccordionItem>
@@ -64,40 +69,40 @@ function Orders() {
                                                 <th className="text-center py-3 px-4">
                                                     Delivery Charges
                                                 </th>
-                                                
+
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {items.items.map((items1, index1) => {
-                                                
+
                                                 return <tr key={index1}>
-                                                        <td className="p-4">
-                                                            <div className="media align-items-center">
-                                                                {items1.productName}
-                                                            </div>
-                                                        </td>
-                                                        <td className="text-right font-weight-semibold align-middle p-4">
-                                                            <pre>
-                                                                {items1.price} x {items1.quantity}
-                                                            </pre>
-                                                        </td>
-                                                        
-                                                        <td className="align-middle p-4">{items.status}</td>
-                                                        <td className="text-center align-middle px-0">
-                                                            {items1.deliveryCharges}
-                                                        </td>
-                                                    </tr>
-                                                
+                                                    <td className="p-4">
+                                                        <div className="media align-items-center">
+                                                            {items1.productName}
+                                                        </div>
+                                                    </td>
+                                                    <td className="text-right font-weight-semibold align-middle p-4">
+                                                        <pre>
+                                                            {items1.price} x {items1.quantity}
+                                                        </pre>
+                                                    </td>
+
+                                                    <td className="align-middle p-4">{items.status}</td>
+                                                    <td className="text-center align-middle px-0">
+                                                        {items1.deliveryCharges}
+                                                    </td>
+                                                </tr>
+
                                             })}
 
                                         </tbody>
                                     </table>
                                     <div>
-                                        <h1 style={{"alignItems":"center","textAlign":"center","fontSize":"20px"}}><b>Total Charges : {items.total}</b></h1>
-                                        <button type="button" className="btn btn-info" style={{"marginTop":"15px","float":"right"}} onClick={()=>downloading(items.invoice)}>Download Invoice</button>
+                                        <h1 style={{ "alignItems": "center", "textAlign": "center", "fontSize": "20px" }}><b>Total Charges : {items.total}</b></h1>
+                                        <button type="button" className="btn btn-info" style={{ "marginTop": "15px", "float": "right" }} onClick={() => downloading(items.invoice)}>Download Invoice</button>
                                     </div>
-                                    
-                                    </div>
+
+                                </div>
 
 
                             </AccordionPanel>

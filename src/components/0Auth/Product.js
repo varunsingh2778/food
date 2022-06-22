@@ -1,5 +1,6 @@
 // Sample card from Airbnb
 import { Badge, Box, Image } from "@chakra-ui/react";
+import Loading from "../../Loading";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
@@ -9,6 +10,7 @@ function Product() {
   const [data, setData] = useState([]);
   const[pageArr,setPageArr] = useState([]);
   const[page,setPage] = useState(0);
+  const[spinner,setSpinner]= useState(false);
 
   const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total,input] = useOutletContext();
 
@@ -34,6 +36,7 @@ function Product() {
 
   const getProd = async (a) => {
     let token = JSON.parse(localStorage.getItem("Token"))
+    setSpinner(true);
     try {
       let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {
         limit: 3,
@@ -45,15 +48,17 @@ function Product() {
       })
       setData(products?.data?.data?.products)
       setPage(products?.data?.data?.pageCount)
+      setSpinner(false)
       // console.log(products)
     } catch (e) {
       console.log(e)
+      setSpinner(false)
     }
   }
 
   return (
-    <>
-      {input.length > 0 ?
+    <>{spinner? <Loading/>:
+      input.length > 0 ?
         searchData.map((data, index) => {
           return <div key={index}>
             <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{

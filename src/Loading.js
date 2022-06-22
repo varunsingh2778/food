@@ -3,7 +3,7 @@ import React from 'react'
 function Loading() {
     return (
         <div style={{"padding": "20%",
-            "text-align": "center",
+            "textAlign": "center",
             "top":"50px"
             }}>
             <div className="spinner-grow text-primary" role="status">

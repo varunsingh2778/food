@@ -9,14 +9,17 @@ import {
   useColorModeValue as mode,
 } from '@chakra-ui/react'
 import axios from 'axios'
+import Loading from '../../Loading'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
 const Cart = () => {
   const [allItems, setAllItems] = useState([]);
+  const[spinner,setSpinner]= useState(false);
   const navigateTo = useNavigate();
   const [removeCart, handleAddtoCart,clearCart, placedOrder,searchData, cartDataItems,displayCart,total] = useOutletContext();
   useEffect(() => {
     // console.log("UseEffect called")
+    setSpinner(true)
     let tokenid = JSON.parse(localStorage.getItem("Token"));
     const getCartItem = async () => {
       try {
@@ -26,9 +29,10 @@ const Cart = () => {
           }
         })
         setAllItems(products.data.data.results.items);
-        
+        setSpinner(false)
       } catch (e) {
         console.log(e)
+        setSpinner(false)
       }
     }
     getCartItem();
@@ -95,9 +99,9 @@ const Cart = () => {
           <Heading fontSize="2xl" fontWeight="extrabold">
             Shopping Cart ({displayCart} items)
           </Heading>
-
           <Stack spacing="6">
-          {displayCart===0?<Heading fontSize="4xl" fontWeight="extrabold">
+          {spinner? <Loading/>:
+          displayCart===0?<Heading fontSize="4xl" fontWeight="extrabold">
             No Items in the Cart 💁
           </Heading>
           

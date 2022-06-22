@@ -27,7 +27,6 @@ const Routing = () => {
           <Route path="/dashboard/cart" element={<Cart/>}/>
           <Route path = "/dashboard/about" element={<About/>}/>
           <Route path = "/dashboard/payment" element = {<Payment/>}/>
-          <Route path = "/dashboard/loading" element = {<Loading/>}/>
         </Route>
         <Route path="*" element ={<PageNotFound/>}/>
       </Routes>
