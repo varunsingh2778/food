@@ -1,7 +1,9 @@
-import axios from 'axios';
+import { config } from '../../../Axiosconfig';
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import '../Dashboard/Dashboard.css'
+
 export default function Dashboard() {
   const [searchData, setSearchData] = useState([]);
   const [displayCart, setDisplayCart] = useState(0);
@@ -18,14 +20,9 @@ export default function Dashboard() {
     getCartItem();
   }, [])
   useEffect(() => {
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
     const getCartItem = async () => {
       try {
-        let products = await axios.get("https://food-app-hai.herokuapp.com/api/user/getAllCarts", {
-          headers: {
-            Authorization: 'Bearer ' + tokenid
-          }
-        })
+        let products = await config().get(`/user/getAllCarts`)
         setTotal(products.data.data.results.total);
       } catch (e) {
         console.log(e)
@@ -42,16 +39,10 @@ export default function Dashboard() {
     setInput(e.target.value)
   }
 
-
   const handleAddtoCart = async (a) => {
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
     try {
-      let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/addToCart", {
+      let products = await config().post(`/user/addToCart`, {
         "productId": a,
-      }, {
-        headers: {
-          'Authorization': 'Bearer ' + tokenid
-        }
       })
       setDisplayCart(products?.data?.data?.items.length)
       setTotal(products?.data?.data.total)
@@ -61,13 +52,8 @@ export default function Dashboard() {
     }
   }
   const removeCart = async (a) => {
-    const token = JSON.parse(localStorage.getItem("Token"));
     try {
-      let products = await axios.delete(`https://food-app-hai.herokuapp.com/api/user/removeItemsFromCart/${a}`, {
-        headers: {
-          Authorization: 'Bearer ' + token
-        }
-      })
+      let products = await config().delete(`/user/removeItemsFromCart/${a}`)
       setCartDataItems(products.data.data.items)
       setTotal(products.data.data.total)
       setDisplayCart(products.data.data.items.length)
@@ -77,13 +63,8 @@ export default function Dashboard() {
   };
 
   const clearCart = async () => {
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
     try {
-      let products = await axios.delete("https://food-app-hai.herokuapp.com/api/user/clearCart", {
-        headers: {
-          Authorization: 'Bearer ' + tokenid
-        }
-      })
+      let products = await config().delete(`/user/clearCart`)
       setCartDataItems(products.data.data.items)
       setTotal(0)
       setDisplayCart(0)
@@ -101,14 +82,8 @@ export default function Dashboard() {
   const handleInput = async () => {
     if (input.length > 0) {
       try {
-        let tokenid = JSON.parse(localStorage.getItem("Token"));
-        let ans = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {
+        let ans = await config().post(`/user/getAllProducts`, {
           search: input,
-
-        }, {
-          headers: {
-            'authorization': 'Bearer ' + tokenid
-          }
         })
         setSearchData(ans?.data?.data?.products);
       } catch (err) {
@@ -118,13 +93,8 @@ export default function Dashboard() {
 
   }
   const getCartItem = async () => {
-    let tokenid = JSON.parse(localStorage.getItem('Token'))
     try {
-      let products = await axios.get("https://food-app-hai.herokuapp.com/api/user/getAllCarts", {
-        headers: {
-          Authorization: 'Bearer ' + tokenid
-        }
-      })
+      let products = await config().get(`/user/getAllCarts`)
       setDisplayCart(products.data.data.results.items.length);
     } catch (e) {
       console.log(e)
@@ -132,13 +102,8 @@ export default function Dashboard() {
   }
 
   const emptyCart = async () => {
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
     try {
-      let products = await axios.get("https://food-app-hai.herokuapp.com/api/user/getAllCarts", {
-        headers: {
-          Authorization: 'Bearer ' + tokenid
-        }
-      })
+      let products = await config().get(`/user/getAllCarts`)
       setCartDataItems(products.data.data.results.items);
       setDisplayCart(0);
       setTotal(0)
@@ -148,18 +113,12 @@ export default function Dashboard() {
   }
 
   const placedOrder = async (a) => {
-    let token = JSON.parse(localStorage.getItem("Token"));
     try {
-      const url = await axios
+      const url2 = await config()
         .post(
-          "https://food-app-hai.herokuapp.com/api/user/placeOrder",
+          `/user/placeOrder`,
           {
             _id: a
-          },
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
           }
         )
         .then((result) => {
@@ -174,31 +133,11 @@ export default function Dashboard() {
 
 
   return (
-    <div style={{
-      "boxSizing": "border-box",
-      "padding": "0",
-      "margin": "0"
-    }}>
-      <header style={{
-        "display": "flex",
-        "justifyContent": "space-between",
-        "padding": "14px",
-        "backgroundColor": "skyblue",
-
-      }}>
-        <div style={{
-          "marginTop": "10px",
-          "marginLeft": "20px",
-          "cursor": "pointer",
-          "fontSize": "25px"
-        }}><h3><Link to="/dashboard"><b>FOOD CART</b></Link></h3></div>
-        <div className="input-group mb-3" style={{
-          "width": "50%",
-          "justifyContent": "sp",
-          "marginTop": "10px",
-        }}>
+    <div className='dashboardContainer'>
+      <header className='dashHeader'>
+        <div className='dashDiv'><h3><Link to="/dashboard"><b>FOOD CART</b></Link></h3></div>
+        <div className="input-group mb-3" id='dashdiv1'>
           <input type="text" className="form-control" placeholder="Search Items here" aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={handleOnChange}>
-
           </input>
         </div>
         <button type="button" className="btn btn-primary position-relative" onClick={() => navigateTo('/dashboard/cart')}>
@@ -209,40 +148,19 @@ export default function Dashboard() {
         </button>
 
         <div>
-          <h1 style={{
-            "marginTop": "10px",
-            "marginRight": "40px"
-          }}><button type="button" className="btn btn-dark" onClick={() => handleLogoutBtn()}>Log Out</button></h1>
+          <h1 className='DashLogout'><button type="button" className="btn btn-dark" onClick={() => handleLogoutBtn()}>Log Out</button></h1>
         </div>
       </header>
-      <div style={{
-        "display": "flex"
-      }}>
-        <div style={{
-          "width": "200px",
-          "backgroundColor": "black",
-          "minHeight": "100vh",
-          "color": "white"
-        }}>
-          <ul style={{
-            "listStyle": "none",
-            "marginLeft": "20px",
-            "fontFamily": "monospace",
-            "fontSize": "20px",
-            "cursor": "pointer",
-            "marginTop": "10px",
-            "paddingTop": "10px"
-          }}>
+      <div className='dashSiderBox'>
+        <div className='siderDiv'>
+          <ul className='siderUl'>
             <li><Link to="/dashboard/product">Product</Link></li>
             <li><Link to="/dashboard/cart">Cart</Link></li>
             <li><Link to="/dashboard/myorders">My Orders</Link></li>
             <li><Link to="/dashboard/about">About</Link></li>
           </ul>
         </div>
-        <div style={{
-          "width": "100%",
-          "padding": "10px",
-        }}>
+        <div className='dashOutlet'>
           <Outlet context={[removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total, input]} />
         </div>
       </div>

@@ -8,9 +8,10 @@ import {
   Stack,
   useColorModeValue as mode,
 } from '@chakra-ui/react'
-import axios from 'axios'
-import Loading from '../../Loading'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { config } from '../../../Axiosconfig';
+import Loading from '../../../Loading';
+import '../Cart/Cart.css';
 
 const Cart = () => {
   const [allItems, setAllItems] = useState([]);
@@ -19,14 +20,9 @@ const Cart = () => {
   const [removeCart, handleAddtoCart, clearCart, placedOrder, searchData, cartDataItems, displayCart, total] = useOutletContext();
   useEffect(() => {
     setSpinner(true)
-    let tokenid = JSON.parse(localStorage.getItem("Token"));
     const getCartItem = async () => {
       try {
-        let products = await axios.get("https://food-app-hai.herokuapp.com/api/user/getAllCarts", {
-          headers: {
-            Authorization: 'Bearer ' + tokenid
-          }
-        })
+        let products = await config().get(`/user/getAllCarts`)
         setAllItems(products.data.data.results.items);
         setSpinner(false)
       } catch (e) {
@@ -107,9 +103,9 @@ const Cart = () => {
                 :
                 cartDataItems.length > 0 ?
                   cartDataItems.map((item, index) => (
-                    <div key={index} style={{ border: "1px solid", padding: "20px", alignItems: "center", textAlign: "center" }}>
+                    <div key={index} className='cardDataItems'>
                       <span>
-                        <img src={item.image} alt="" style={{ height: "60px", marginLeft: "45%" }} />
+                        <img src={item.image} alt="" className='cartImages'/>
                         <pre>
                           {item.title} <b>Price: ₹ {item.price}</b><br /><b>Delivery Charges ₹ {item.deliveryCharges}</b>
                         </pre>
@@ -125,9 +121,9 @@ const Cart = () => {
                   ))
                   :
                   allItems.map((item, index) => (
-                    <div key={index} style={{ border: "1px solid", padding: "20px", alignItems: "center", textAlign: "center" }}>
+                    <div key={index} className='cardDataItems'>
                       <span>
-                        <img src={item.image} alt="" style={{ height: "60px", marginLeft: "45%" }} />
+                        <img src={item.image} alt="" className='cartImages' />
                         <pre>
                           {item.title} <b>Price: ₹ {item.price}</b><br /><b>Delivery Charges ₹ {item.deliveryCharges}</b>
                         </pre>
@@ -146,11 +142,11 @@ const Cart = () => {
         </Stack>
 
         <Flex direction="column" align="center" flex="1" border="1px">
-          <div style={{ "marginTop": "0px", "padding": "7px" }}>
-            <h1 style={{ "fontSize": "20px" }}><b>Order Summary</b></h1>
-            <div style={{ "justifyContent": "space-between", "marginTop": "25px", "display": "flex" }}><h2>Subtotal Items</h2><h2>{displayCart}</h2></div>
+          <div className='orderSummaryBox'>
+            <h1 className='oderSummaryTittle'><b>Order Summary</b></h1>
+            <div className='summaryItems'><h2>Subtotal Items</h2><h2>{displayCart}</h2></div>
 
-            <div style={{ "justifyContent": "space-between", "marginTop": "7px", "fontSize": "30px", "display": "flex" }}><h1>Total</h1>&nbsp;<h1>{total}</h1></div>
+            <div className='summaryTotal'><h1>Total</h1>&nbsp;<h1>{total}</h1></div>
             <button type="button" className="btn btn-primary" onClick={() => checkOut()}>Proceed to CheckOut</button>
           </div>
 

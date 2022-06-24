@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { loginConfig } from "../../../Axiosconfig";
+import "../Login/Login.css";
 const Login = () => {
   const [data, setData] = useState({});
   const Navigate = useNavigate();
@@ -17,7 +18,7 @@ const Login = () => {
     }
   }, [])
   const logIn = () => {
-    axios.post("https://food-app-hai.herokuapp.com/api/user/login", data).then((result) => {
+    loginConfig().post(`/user/login`, data).then((result) => {
       if (result?.data?.data?.accessToken) {
         Navigate("/dashboard");
         localStorage.setItem('Token', JSON.stringify(result.data.data.accessToken))
@@ -30,11 +31,11 @@ const Login = () => {
 
   return (
     <>
-      <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+      <section className="vh-100" id="loginBox">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
-              <div className="card text-black" style={{ borderRadius: "25px" }}>
+              <div className="card text-black" id="loginMain">
                 <div className="card-body p-md-5">
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">

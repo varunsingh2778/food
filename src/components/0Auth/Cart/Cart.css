@@ -1,0 +1,29 @@
+.cardDataItems{
+    padding:  20px;
+    align-items: center; 
+    text-align: center;
+
+}
+.cartImages{
+    height: 60px;
+    margin-left: 45%;
+}
+.orderSummaryBox{
+    margin-top: 0px;
+    padding: 7px;
+}
+.oderSummaryTittle{
+    font-size: 20px
+}
+.summaryItems{
+    justify-content: space-between;
+    margin-top: 25px;
+    display: flex;
+}
+.summaryTotal{
+    justify-content: space-between;
+    margin-top: 7px;
+    font-size: 30px;
+    display: flex;
+}
+   

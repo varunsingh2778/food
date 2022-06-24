@@ -1,10 +1,9 @@
-// Sample card from Airbnb
 import { Badge, Box, Image } from "@chakra-ui/react";
-import Loading from "../../Loading";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-
+import { config } from "../../../Axiosconfig";
+import Loading from "../../../Loading";
+import '../Product/Product.css'
 
 function Product() {
   const [data, setData] = useState([]);
@@ -29,16 +28,11 @@ function Product() {
   }
 
   const getProd = async (a) => {
-    let token = JSON.parse(localStorage.getItem("Token"))
     setSpinner(true);
     try {
-      let products = await axios.post("https://food-app-hai.herokuapp.com/api/user/getAllProducts", {
+      let products = await config().post(`/user/getAllProducts`, {
         limit: 3,
         page: a
-      }, {
-        headers: {
-          Authorization: 'Bearer ' + token
-        }
       })
       setData(products?.data?.data?.products)
       setPage(products?.data?.data?.pageCount)
@@ -54,14 +48,8 @@ function Product() {
       input.length > 0 ?
         searchData.map((data, index) => {
           return <div key={index}>
-            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
-              "float": "left",
-              "width": "25%",
-              "padding": "10px",
-              "marginLeft": "70px",
-              "marginTop": "10px"
-            }}>
-              <Image src={data.image} alt="" style={{ "height": "220px" }} />
+            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' className="prodBox">
+              <Image src={data.image} alt="" className="prodImg"/>
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
@@ -86,7 +74,7 @@ function Product() {
                   ₹ {data.price}
                 </Box>
 
-                <Box display='flex' mt='2' alignItems='center' style={{ "alignItems": "center", "textAlign": "center" }}>
+                <Box display='flex' mt='2' alignItems='center' className="prodbtn">
                   <button type="button" className="btn btn-light" onClick={() => handleAddtoCart(data._id)}>Add to Cart</button>
                 </Box>
               </Box>
@@ -96,14 +84,8 @@ function Product() {
         :
         data.map((data, index) => {
           return <div key={index}>
-            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' style={{
-              "float": "left",
-              "width": "25%",
-              "padding": "10px",
-              "marginLeft": "70px",
-              "marginTop": "10px"
-            }}>
-              <Image src={data.image} alt="" style={{ "height": "220px" }} />
+            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' className="prodBox">
+              <Image src={data.image} alt="" className="prodImg" />
 
               <Box p='6'>
                 <Box display='flex' alignItems='baseline'>
@@ -128,7 +110,7 @@ function Product() {
                   ₹ {data.price}
                 </Box>
 
-                <Box display='flex' mt='2' alignItems='center' style={{ "alignItems": "center", "textAlign": "center" }}>
+                <Box display='flex' mt='2' alignItems='center' className="prodbtn">
                   <button type="button" className="btn btn-light" onClick={() => handleAddtoCart(data._id)}>Add to Cart</button>
                 </Box>
               </Box>
@@ -136,7 +118,7 @@ function Product() {
           </div>
 
         })}
-      <div className="container d-flex justify-content-center" style={{ "paddingBottom": "2%", "paddingTop": "3%" }}>
+      <div className="container d-flex justify-content-center" id="prodPagination">
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
@@ -146,7 +128,7 @@ function Product() {
               </a>
             </li>
             {pageArr.map((item, index) => {
-              return <li key={index} className="page-item" style={{ "cursor": "pointer" }}><a className="page-link" onClick={() => getProd(item)}>{item}</a></li>
+              return <li key={index} className="page-item" id="pageLi"><a className="page-link" onClick={() => getProd(item)}>{item}</a></li>
             })}
             <li className="page-item">
               <a className="page-link" href="#" aria-label="Next">

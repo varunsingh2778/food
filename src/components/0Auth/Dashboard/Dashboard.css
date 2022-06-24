@@ -1,0 +1,48 @@
+.dashboardContainer{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0
+}
+.dashHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 14px;
+    background-color: skyblue;
+}
+.dashDiv{
+    margin-top: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 25px;
+}
+#dashdiv1{
+    width: 50%;
+    justify-content: sp;
+    margin-top: 10px;
+}
+.DashLogout{
+    margin-top: 10px;
+    margin-right: 40px
+}
+.dashSiderBox{
+    display: flex;
+}
+.siderDiv{
+    width: 200px;
+    background-color: black;
+    min-height: 100vh;
+    color: white;
+}
+.siderUl{
+    list-style: none;
+    margin-left: 20px;
+    font-family: monospace;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.dashOutlet{
+    width: 100%;
+    padding: 10px;
+}

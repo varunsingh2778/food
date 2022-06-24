@@ -1,25 +1,21 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, Box, AccordionPanel } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Loading from "../../Loading";
 import "react-accessible-accordion/dist/fancy-example.css";
+import Loading from "../../../Loading";
+import '../Order/Order.css';
+import {config} from "../../../Axiosconfig";
+
 
 function Orders() {
     const [order, setOrder] = useState([])
     const [spinner, setSpinner] = useState(false);
     const getSearch = async () => {
         setSpinner(true)
-        let token = JSON.parse(localStorage.getItem("Token"));
         try {
-            const url = await axios
+            const url1 = await config()
                 .post(
-                    "https://food-app-hai.herokuapp.com/api/user/placedOrder",
+                    `/user/placedOrder`,
                     {},
-                    {
-                        headers: {
-                            authorization: `Bearer ${token}`,
-                        },
-                    }
                 )
                 .then((result) => {
                     setOrder(result.data.data);
@@ -71,7 +67,6 @@ function Orders() {
                                         </thead>
                                         <tbody>
                                             {items.items.map((items1, index1) => {
-
                                                 return <tr key={index1}>
                                                     <td className="p-4">
                                                         <div className="media align-items-center">
@@ -95,8 +90,8 @@ function Orders() {
                                         </tbody>
                                     </table>
                                     <div>
-                                        <h1 style={{ "alignItems": "center", "textAlign": "center", "fontSize": "20px" }}><b>Total Charges : {items.total}</b></h1>
-                                        <button type="button" className="btn btn-info" style={{ "marginTop": "15px", "float": "right" }} onClick={() => downloading(items.invoice)}>Download Invoice</button>
+                                        <h1 className="orderTotal"><b>Total Charges : {items.total}</b></h1>
+                                        <button type="button" className="btn btn-info" id="orderBtn" onClick={() => downloading(items.invoice)}>Download Invoice</button>
                                     </div>
 
                                 </div>

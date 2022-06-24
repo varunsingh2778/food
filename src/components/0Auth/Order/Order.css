@@ -1,0 +1,9 @@
+.orderTotal{
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+}
+#orderBtn{
+    margin-top: 15px;
+    float: right;
+}

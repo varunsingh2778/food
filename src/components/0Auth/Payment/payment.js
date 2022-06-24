@@ -1,20 +1,15 @@
-import axios from 'axios';
+import { config } from '../../../Axiosconfig';
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import {useOutletContext } from 'react-router-dom';
 
 function Payment() {
     const[total,setTotal] = useState(0);
     const[id,setId] =useState(0)
     const [removeCart, handleAddtoCart,clearCart, placedOrder,searchData, cartDataItems,displayCart] = useOutletContext();
     useEffect(() => {
-        let tokenid = JSON.parse(localStorage.getItem("Token"));
         const getCartItem = async () => {
             try {
-                let products = await axios.get("https://food-app-hai.herokuapp.com/api/user/getAllCarts", {
-                    headers: {
-                        Authorization: 'Bearer ' + tokenid
-                    }
-                })
+                let products = await config().get(`/user/getAllCarts`)
                 setTotal(products.data.data.results.total)
                 setId(products.data.data.results._id)
 

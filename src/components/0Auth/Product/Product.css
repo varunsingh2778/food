@@ -1,0 +1,21 @@
+.prodBox{
+    float: left;
+    width: 25%;
+    padding: 10px;
+    margin-left: 70px;
+    margin-top: 10px;
+}
+.prodImg{
+    height: 220px;
+}
+.prodbtn{
+    align-items: center;
+    text-align: center;
+}
+#prodPagination{
+    padding-bottom: 2%;
+    padding-top: 3%;
+}
+#pageLi{
+    cursor: pointer;
+}

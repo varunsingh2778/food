@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { loginConfig } from "../../../Axiosconfig";
+import '../Signup/Signup.css'
 const Signup = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
@@ -17,8 +18,8 @@ const Signup = () => {
     });
   };
   const sendApi = () => {
-    axios
-      .post("https://food-app-hai.herokuapp.com/api/user/register", data)
+    loginConfig()
+      .post(`/user/register`, data)
       .then((result) => {
         navigate("/login");
         console.log(result);
@@ -29,11 +30,11 @@ const Signup = () => {
   };
   return (
     <>
-      <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+      <section id="signUpcontainers">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-lg-12 col-xl-11">
-              <div className="card text-black" style={{ borderRadius: "25px" }}>
+              <div className="card text-black" id="signUpBoxx">
                 <div className="card-body p-md-5">
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">

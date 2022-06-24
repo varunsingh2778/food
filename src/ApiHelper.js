@@ -1,0 +1,1 @@
+export let url = "https://food-app-hai.herokuapp.com/api";
